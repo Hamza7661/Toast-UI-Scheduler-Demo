@@ -108,10 +108,6 @@ class SchedulerManager {
 
         // Handle drag and drop
         this.calendar.on('beforeUpdateSchedule', (event) => {
-            console.log('Before update schedule event:', event);
-            console.log('Schedule data:', event.schedule);
-            console.log('Changes:', event.changes);
-            
             // Use the changes data which contains the new times
             if (event.changes && (event.changes.start || event.changes.end)) {
                 const updatedSchedule = {
@@ -120,17 +116,9 @@ class SchedulerManager {
                     end: event.changes.end || event.schedule.end
                 };
                 
-                console.log('Updated schedule with changes:', updatedSchedule);
-                
                 // Update the event on the server with the new times
                 this.updateEvent(updatedSchedule);
             }
-        });
-
-        // Handle after update for confirmation
-        this.calendar.on('afterUpdateSchedule', (event) => {
-            console.log('After update schedule event:', event);
-            console.log('Final schedule data:', event.schedule);
         });
 
         // Handle event deletion
@@ -249,8 +237,6 @@ class SchedulerManager {
                 return;
             }
 
-            console.log('Updating event with data:', schedule);
-
             // Handle TOAST UI Calendar's date format
             let startDate, endDate;
             
@@ -297,8 +283,6 @@ class SchedulerManager {
                 dragBackgroundColor: schedule.dragBgColor || schedule.dragBackgroundColor || '#34c38f'
             };
 
-            console.log('Sending event data:', eventData);
-
             const response = await fetch(`/Scheduler/UpdateEvent/${schedule.id}`, {
                 method: 'PUT',
                 headers: {
@@ -311,7 +295,6 @@ class SchedulerManager {
                 const errorText = await response.text();
                 console.error('Error updating event:', response.status, errorText);
             } else {
-                console.log('Event updated successfully');
                 // Refresh the calendar to show updated data
                 await this.loadEvents();
             }
