@@ -1,0 +1,103 @@
+@{
+    ViewData["Title"] = "TOAST UI Scheduler";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="card-title">TOAST UI Scheduler Demo</h4>
+                        <p class="card-text">A comprehensive calendar scheduling solution integrated with ASP.NET MVC</p>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="schedulerManager.showCreateEventModal()">
+                        <i class="fas fa-plus"></i> Add Event
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div id="calendar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Event Modal -->
+<div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventModalLabel">Event Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="eventForm">
+                    <input type="hidden" id="eventId" />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="eventTitle" class="form-label">Title *</label>
+                                <input type="text" class="form-control" id="eventTitle" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="eventLocation" class="form-label">Location</label>
+                                <input type="text" class="form-control" id="eventLocation">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="eventDescription" rows="3"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="eventStartDate" class="form-label">Start Date/Time *</label>
+                                <input type="datetime-local" class="form-control" id="eventStartDate" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="eventEndDate" class="form-label">End Date/Time *</label>
+                                <input type="datetime-local" class="form-control" id="eventEndDate" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventAttendees" class="form-label">Attendees</label>
+                        <input type="text" class="form-control" id="eventAttendees" placeholder="Enter attendee names separated by commas">
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="eventIsAllDay">
+                            <label class="form-check-label" for="eventIsAllDay">
+                                All Day Event
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="deleteEventBtn" style="display: none;">Delete</button>
+                <button type="button" class="btn btn-primary" onclick="schedulerManager.saveEvent()">Save Event</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST UI Scheduler CSS -->
+<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
+<!-- Custom Scheduler CSS -->
+<link rel="stylesheet" href="~/css/scheduler.css" />
+
+<!-- TOAST UI Scheduler Dependencies -->
+<script src="https://uicdn.toast.com/tui.code-snippet/v1.5.2/tui-code-snippet.min.js"></script>
+<script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
+<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
+<script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
+<!-- Custom Scheduler JS -->
+<script src="~/js/scheduler.js"></script> 

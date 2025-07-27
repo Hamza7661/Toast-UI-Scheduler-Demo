@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to TOAST UI Scheduler</h1>
+    <p class="lead">A comprehensive calendar scheduling solution integrated with ASP.NET MVC</p>
+    
+    <!-- Demo Notice -->
+    <div class="alert alert-info" role="alert">
+        <i class="fas fa-info-circle"></i>
+        <strong>Demo Mode:</strong> Data is stored in memory for demonstration purposes.
+    </div>
+    
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Features</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-calendar-plus"></i> Create and manage events</li>
+                        <li><i class="fas fa-edit"></i> Edit existing events</li>
+                        <li><i class="fas fa-trash"></i> Delete events</li>
+                        <li><i class="fas fa-drag"></i> Drag and drop functionality</li>
+                        <li><i class="fas fa-users"></i> Manage attendees</li>
+                        <li><i class="fas fa-clock"></i> All-day and time-based events</li>
+                    </ul>
+                    <a asp-controller="Scheduler" asp-action="Index" class="btn btn-primary btn-lg">
+                        <i class="fas fa-calendar"></i> Open Calendar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
