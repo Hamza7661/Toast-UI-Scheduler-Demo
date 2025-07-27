@@ -48,14 +48,41 @@ class SchedulerManager {
             const response = await fetch('/Scheduler/GetEvents');
             const events = await response.json();
             
+            // Convert UTC times to local timezone
+            const localEvents = events.map(event => ({
+                ...event,
+                start: this.convertToLocalTime(event.start),
+                end: this.convertToLocalTime(event.end)
+            }));
+            
             // Clear existing events before adding new ones
             this.calendar.clear();
             
-            // Add the updated events
-            this.calendar.createSchedules(events);
+            // Add the updated events with local times
+            this.calendar.createSchedules(localEvents);
         } catch (error) {
             console.error('Error loading events:', error);
         }
+    }
+
+    convertToLocalTime(utcTimeString) {
+        if (!utcTimeString) return utcTimeString;
+        
+        // Parse the UTC time and convert to local timezone
+        const utcDate = new Date(utcTimeString);
+        const localDate = new Date(utcDate.getTime() - (utcDate.getTimezoneOffset() * 60000));
+        
+        return localDate.toISOString();
+    }
+
+    convertToUTC(localDate) {
+        if (!localDate) return localDate;
+        
+        // Convert local time to UTC for server storage
+        const date = new Date(localDate);
+        const utcDate = new Date(date.getTime() + (date.getTimezoneOffset() * 60000));
+        
+        return utcDate.toISOString();
     }
 
     bindEventHandlers() {
@@ -250,8 +277,8 @@ class SchedulerManager {
                 description: schedule.body || '',
                 location: schedule.location || '',
                 attendees: schedule.attendees || '',
-                startDate: startDate,
-                endDate: endDate,
+                startDate: this.convertToUTC(startDate),
+                endDate: this.convertToUTC(endDate),
                 isAllDay: schedule.isAllDay || false,
                 category: schedule.category || 'time',
                 color: schedule.color || '#ffffff',

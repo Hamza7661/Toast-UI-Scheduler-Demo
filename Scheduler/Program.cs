@@ -1,8 +1,12 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure the application to listen on the port provided by the hosting environment
-var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
-builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+// Only set custom URLs if PORT environment variable is provided (for Docker/Render)
+var port = Environment.GetEnvironmentVariable("PORT");
+if (port != null)
+{
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+}
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
