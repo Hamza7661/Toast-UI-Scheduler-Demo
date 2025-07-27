@@ -78,8 +78,18 @@ class SchedulerManager {
     convertToUTC(localDate) {
         if (!localDate) return localDate;
         
+        // Handle TOAST UI Calendar date format
+        let dateString;
+        if (typeof localDate === 'object' && localDate._date) {
+            dateString = localDate._date;
+        } else if (typeof localDate === 'string') {
+            dateString = localDate;
+        } else {
+            return localDate;
+        }
+        
         // Convert local time to UTC for server storage
-        const date = new Date(localDate);
+        const date = new Date(dateString);
         const utcDate = new Date(date.getTime() + (date.getTimezoneOffset() * 60000));
         
         return utcDate.toISOString();
@@ -247,29 +257,29 @@ class SchedulerManager {
             if (schedule.start) {
                 if (typeof schedule.start === 'object' && schedule.start._date) {
                     // TOAST UI Calendar format: { "_date": "2025-07-28T05:00:00.000Z" }
-                    startDate = new Date(schedule.start._date);
+                    startDate = schedule.start._date;
                 } else if (typeof schedule.start === 'string') {
                     // Direct string format
-                    startDate = new Date(schedule.start);
+                    startDate = schedule.start;
                 } else {
-                    startDate = new Date();
+                    startDate = new Date().toISOString();
                 }
             } else {
-                startDate = new Date();
+                startDate = new Date().toISOString();
             }
             
             if (schedule.end) {
                 if (typeof schedule.end === 'object' && schedule.end._date) {
                     // TOAST UI Calendar format: { "_date": "2025-07-28T06:00:00.000Z" }
-                    endDate = new Date(schedule.end._date);
+                    endDate = schedule.end._date;
                 } else if (typeof schedule.end === 'string') {
                     // Direct string format
-                    endDate = new Date(schedule.end);
+                    endDate = schedule.end;
                 } else {
-                    endDate = new Date();
+                    endDate = new Date().toISOString();
                 }
             } else {
-                endDate = new Date();
+                endDate = new Date().toISOString();
             }
 
             const eventData = {
